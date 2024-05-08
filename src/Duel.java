@@ -16,22 +16,21 @@ import javafx.stage.Stage;
 public class Duel {
 	//VAR
 	private Player player;
-	private FightingEntity pokemon;
+	private Pokemon pokemon;
 	private Scene scene;
 	private Stage primaryStage;
 	
 	private boolean isClose;
+	private boolean isPlayerWin;
 	private Consumer<Boolean> closeChangeListener;
 	
 	//VarFX;
-	private Label hpPlayer;
-	private Label hpPokemon;
 	private ComboBox<String> itemsBox;
 	private Button btnUse;
 
 	
 	//Cons
-	public Duel(Stage primaryStage, Player player, FightingEntity pokemon) {
+	public Duel(Stage primaryStage, Player player, Pokemon pokemon) {
 		this.primaryStage = primaryStage;
 		this.player = player;
 		this.pokemon = pokemon;
@@ -48,6 +47,14 @@ public class Duel {
 		
 		this.scene = new Scene(this.loadDuel(), Constantes.STAGE_HEIGHT , Constantes.STAGE_WIDTH);
 		this.primaryStage.setScene(this.scene);
+	}
+	
+	//GetSet
+	public boolean isPlayerWin() {
+		return this.isPlayerWin;
+	}
+	public Pokemon getPokemon() {
+		return this.pokemon;
 	}
 	//Listener
 	public boolean getIsClose() {
@@ -70,21 +77,40 @@ public class Duel {
     	
     	if(pokemon.isKo()) {
 			System.out.println("Victoire");
+			this.isPlayerWin = true;
 			this.setIsClose(true);
 		}
 		else {
 
-			this.player.receiveDamage(pokemon.getAtk());
+			this.pokemonTurn();
+			
 			if (this.player.isKo()) {
 				System.out.println("Defaite");
+				this.isPlayerWin = false;
 				this.setIsClose(true);
 			}
 			else {
+				System.out.println("\nTour joueur:");
 				this.scene.setRoot(this.loadDuel());
 			    this.primaryStage.setScene(this.scene);
 			}
 			
 		}
+    }
+    
+    private void pokemonTurn() {
+    	
+    	System.out.println("Tour adverse:");
+    	
+    	this.player.receiveDamage(pokemon.getAtk());
+    	
+    	List<Item> inventoryDuel = this.pokemon.getInventoryDuel();
+    	
+    	if(!inventoryDuel.isEmpty()) {
+    		pokemon.useObject(inventoryDuel.get(0).getName());
+
+    	}
+    	
     }
     
     private void loadItemBox() {
@@ -95,7 +121,11 @@ public class Duel {
     	}
     	else {
     		for(Item item : this.player.getInventory()) {
-    	    	comboBox.getItems().add(item.getName());
+    			
+    			if(item.isUseableInDuel()) {
+    				comboBox.getItems().add(item.getName());
+    			}
+    	    	
     	    }  
     	}
     	
@@ -105,18 +135,13 @@ public class Duel {
     public void handleUseBtn() {
     	
     	if(this.itemsBox.getValue() != null) {
-    		System.out.println("Utilise : " + this.itemsBox.getValue().toString());
     		
-        	if(this.itemsBox.getValue().toString().equals(Constantes.ITEM_POTION.getName())) {
-        		System.out.println("COUCOU");
-        		
-        		this.player.healing(40);
-        		System.out.println(this.player.getHp());
-        	}
-        	
-        	this.nextTurn();
-    	}
-    		
+    		if(!this.itemsBox.getValue().equals("vide")) {
+    			
+    			this.player.useObject(this.itemsBox.getValue().toString());
+            	this.nextTurn();
+    		}	
+    	}		
     }
     
 	public GridPane loadDuel() {
@@ -159,7 +184,6 @@ public class Duel {
 		//Atk
 		 Button buttonAtk = new Button("Attaque");
 	     buttonAtk.setOnAction(e -> {
-	          System.out.println("Attaque");
 	          pokemon.receiveDamage(this.player.getAtk());
 	          this.nextTurn();
 	      });

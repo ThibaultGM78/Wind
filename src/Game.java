@@ -27,11 +27,8 @@ public class Game {
 		super();
 		
 		this.player = new Player();
-		this.biome = new VillageBiome();
+		this.setBiome( new VillageBiome(4,8));
 		this.primaryStage = primaryStage;
-		
-		this.player.setPosX(4);
-		this.player.setPosY(4);
 		
         this.mapScene = new Scene(this.loadBiome(), Constantes.STAGE_HEIGHT , Constantes.STAGE_WIDTH);
         this.mapScene.setOnKeyPressed(e -> {
@@ -94,7 +91,19 @@ public class Game {
 	public int getMaxColView() {
 		return this.biome.getHeight() - this.getMinRowView() - 1;
 	}
+	public void setBiome(Biome b) {
+		this.player.setPosX(b.getSpawnX());
+		this.player.setPosY(b.getSpawnY());
+		this.biome = b;
+	}
+	
 	//Methode
+	public void playerMove() {
+		if(this.biome.getTile(this.player.getPosX(), this.player.getPosY()).getBiome() != null) {
+			this.setBiome(this.biome.getTile(this.player.getPosX(), this.player.getPosY()).getBiome());
+		}
+		
+	}
 	public void playerMoveTop() {
 		System.out.println("Joueur monte");
 		
@@ -104,7 +113,9 @@ public class Game {
 		this.player.setDirection(Constantes.DIRECTION_NORTH);
 		if(this.biome.moveIsPossible(x, y, this.player)) {
 			this.player.setPosY(y);
+			this.playerMove();
 		}
+
 		this.mapScene.setRoot(this.loadBiome());
 	}
 	public void playerMoveBottom() {
@@ -116,6 +127,7 @@ public class Game {
 		this.player.setDirection(Constantes.DIRECTION_SOUTH);
 		if(this.biome.moveIsPossible(x, y, this.player)) {
 			this.player.setPosY(y);
+			this.playerMove();
 		}	
 		this.mapScene.setRoot(this.loadBiome());
 	}
@@ -128,6 +140,7 @@ public class Game {
 		this.player.setDirection(Constantes.DIRECTION_WEST);
 		if(this.biome.moveIsPossible(x, y, this.player)) {
 			this.player.setPosX(x);
+			this.playerMove();
 		}
 		this.mapScene.setRoot(this.loadBiome());
 	}
@@ -140,6 +153,7 @@ public class Game {
 		this.player.setDirection(Constantes.DIRECTION_EAST);
 		if(this.biome.moveIsPossible(x, y, this.player)) {
 			this.player.setPosX(x);
+			this.playerMove();
 		}
 		this.mapScene.setRoot(this.loadBiome());
 	}
@@ -190,12 +204,25 @@ public class Game {
 				duel.setCloseChangeListener(isClose -> {
 		            if (isClose) {
 		                System.out.println("Fin du combat");
+		                
 		                this.mapScene.setRoot(this.loadBiome());
 		                this.primaryStage.setScene(this.mapScene);
+		                
+		                if(duel.isPlayerWin()) {
+							
+							if(duel.getPokemon().getReward() != null) {
+								
+								this.loadTextBox(this.player.getName() + " obtient " + duel.getPokemon().getReward().getName());
+								this.player.getInventory().add(duel.getPokemon().getReward());
+								this.loadTextBox(this.player.getName() + " recoit " + duel.getPokemon().getReward().getName());
+							}
+							
+						}
 		           
 		            }
 		        });
-				 this.biome.getTile(x, y).setPokemon(null);
+				
+				this.biome.getTile(x, y).setPokemon(null);
 			}
 		}
 	}

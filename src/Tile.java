@@ -3,7 +3,8 @@ public class Tile {
 	//Var
 	private Bloc bloc;
 	private Pnj pnj;
-	private FightingEntity pokemon;
+	private Pokemon pokemon;
+	private Biome biome;
 	
 	//Cons
 	public Tile() {
@@ -27,11 +28,19 @@ public class Tile {
 		this.pnj = pnj;
 	}
 
-	public FightingEntity getPokemon() {
+	public Pokemon getPokemon() {
 		return pokemon;
 	}
 
-	public void setPokemon(FightingEntity pokemon) {
+	public void setPokemon(Pokemon pokemon) {
 		this.pokemon = pokemon;
+	}
+
+	public Biome getBiome() {
+		return biome;
+	}
+
+	public void setBiome(Biome biome) {
+		this.biome = biome;
 	}
 }

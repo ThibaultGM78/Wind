@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class FightingEntity extends Entity{
 	//Var
@@ -41,6 +43,7 @@ public class FightingEntity extends Entity{
 	}
 	
 	public void receiveDamage(double damage) {
+		System.out.println(this.getName() + " recoit " + damage + " dégat");
 		this.hp = this.hp - damage;
 	}
 	public void healing(double heal) {
@@ -52,7 +55,36 @@ public class FightingEntity extends Entity{
 	public boolean isKo() {
 		return this.hp <= 0;
 	}
-
 	
+	public List<Item> getInventoryDuel() {
+		
+		List<Item> inventoryDuel = new ArrayList<Item>();
+		
+		for(Item item : this.getInventory()) {
+			if(item.isUseableInDuel()) {
+				inventoryDuel.add(item);
+			}
+		}
+		
+		return inventoryDuel;
+	}
+
+	//Object
+	public void useObject(String item) {
+		
+		System.out.println(this.getName() + " utilise : " + item);
+		
+    	if(item.equals(Constantes.ITEM_POTION.getName())) {
+    		
+    		double currentHp = this.getHp();
+    		
+    		this.healing(40);
+    		System.out.println(currentHp + " -> " +this.getHp());
+    		
+    		this.itemDegradation(Constantes.ITEM_POTION.getName());
+    	}
+		
+		
+	}
 
 }

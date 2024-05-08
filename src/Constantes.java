@@ -24,10 +24,16 @@ public class Constantes {
 	
 	//Bloc
 	public final static Bloc BLOC_0 = new Bloc(0,"./dirt.jpg", false);
-	public final static Bloc BLOC_1 = new Bloc(1,"./rouge.jpg",true);
+	public final static Bloc BLOC_1 = new Bloc(1,"./rouge.jpg", true);
+	public final static Bloc BLOC_2 = new Bloc(2, "./tree.jpg", true);
+	public final static Bloc BLOC_3 = new Bloc(3, "./gate.jpg", true);
+	public final static Bloc BLOC_4 = new Bloc(4, "./stone.jpg", false);
+	public final static Bloc BLOC_5 = new Bloc(4, "./nether.jpg", false);
+ 	
 	
 	//Item
 	public final static Item ITEM_BALL = new Item(0,"Pokeball", "./pokeball.png",false);
-	public final static Item ITEM_POTION = new Item(1,"Potion", "./potion.png",true);
+	public final static Item ITEM_POTION = new Item(1,"Potion", "./potion.png",true,1);
+	public final static Item ITEM_KEY = new Item(2,"Clé", "./key.png",false);
 	
 }
