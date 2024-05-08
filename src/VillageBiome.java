@@ -2,8 +2,8 @@
 
 public class VillageBiome extends Biome{
 	
-	public VillageBiome(int spawnX, int spawnY) {
-		super(11 * 2, 11 * 2, spawnX, spawnY);
+	public VillageBiome() {
+		super(11 * 2, 11 * 2,0);
 	}
 	
 	public void initBiome() {
@@ -42,7 +42,7 @@ public class VillageBiome extends Biome{
 		
 		//BossBiome
 		this.getTile(3, 1).setBloc(Constantes.BLOC_5.deepCopy());
-		this.getTile(3, 1).setBiome(new BossBiome(1,1));
+		this.getTile(3, 1).setTpTile(1, 5, 6);
 		
 		//Pnj
 		String[] dialog = {"Bonjour, prend ce present."};

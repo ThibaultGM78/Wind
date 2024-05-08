@@ -1,8 +1,8 @@
 
 public class BossBiome extends Biome{
 
-	public BossBiome(int spawnX, int spawnY) {
-		super(11, 11, spawnX, spawnY);
+	public BossBiome() {
+		super(11, 11,1);
 	}
 	@Override
 	public void initBiome() {
@@ -16,8 +16,9 @@ public class BossBiome extends Biome{
 			}
 		}
 		
-		this.getTile(3, 1).setBloc(Constantes.BLOC_5.deepCopy());
-		this.getTile(3, 1).setBiome(new VillageBiome(1,1));
+		this.getTile(5, 5).setBloc(Constantes.BLOC_5.deepCopy());
+		this.getTile(5, 5).setTpTile(0, 3, 2);
+		
 	}
 	
 	

@@ -3,6 +3,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -27,8 +28,11 @@ public class Game {
 		super();
 		
 		this.player = new Player();
-		this.setBiome( new VillageBiome(4,8));
+		this.biome = Constantes.BIOME_VILLAGE;
 		this.primaryStage = primaryStage;
+		
+		this.player.setPosX(4);
+		this.player.setPosY(8);
 		
         this.mapScene = new Scene(this.loadBiome(), Constantes.STAGE_HEIGHT , Constantes.STAGE_WIDTH);
         this.mapScene.setOnKeyPressed(e -> {
@@ -91,17 +95,30 @@ public class Game {
 	public int getMaxColView() {
 		return this.biome.getHeight() - this.getMinRowView() - 1;
 	}
-	public void setBiome(Biome b) {
-		this.player.setPosX(b.getSpawnX());
-		this.player.setPosY(b.getSpawnY());
-		this.biome = b;
-	}
-	
+
 	//Methode
 	public void playerMove() {
-		if(this.biome.getTile(this.player.getPosX(), this.player.getPosY()).getBiome() != null) {
-			this.setBiome(this.biome.getTile(this.player.getPosX(), this.player.getPosY()).getBiome());
+		if(this.biome.getTile(this.player.getPosX(), this.player.getPosY()).isTpTile()) {
+			
+			int x = this.biome.getTile(this.player.getPosX(), this.player.getPosY()).getSpawnX();
+			int y = this.biome.getTile(this.player.getPosX(), this.player.getPosY()).getSpawnY();
+			
+			switch(this.biome.getTile(this.player.getPosX(), this.player.getPosY()).getIdTpBiome()) {
+			 case 0:
+				 this.biome = Constantes.BIOME_VILLAGE;
+				 break;
+			 case 1:
+				 this.biome = Constantes.BOSS_VILLAGE;
+				 break;
+			default:
+				break;
+			}
+			
+			this.player.setPosX(x);
+			this.player.setPosY(y);
+			this.player.setDirection(Constantes.DIRECTION_SOUTH);
 		}
+		
 		
 	}
 	public void playerMoveTop() {
@@ -337,7 +354,10 @@ public class Game {
             	 if(i*Constantes.NUMBER_OF_COL + j < this.player.getInventory().size()) {
                     		
             		 Item item = this.player.getInventoryElement(i*Constantes.NUMBER_OF_COL + j);
-            		 ImageView img = item.getSprite();	
+            		 ImageView img = item.getSprite();
+            		 
+            	
+            		 
             		 gridPane.add(img, j, i);
             	 }
             }

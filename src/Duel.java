@@ -41,10 +41,6 @@ public class Duel {
 	    	 this.handleUseBtn();
 	     });
 		
-		
-		
-		
-		
 		this.scene = new Scene(this.loadDuel(), Constantes.STAGE_HEIGHT , Constantes.STAGE_WIDTH);
 		this.primaryStage.setScene(this.scene);
 	}

@@ -36,4 +36,7 @@ public class Constantes {
 	public final static Item ITEM_POTION = new Item(1,"Potion", "./potion.png",true,1);
 	public final static Item ITEM_KEY = new Item(2,"Clé", "./key.png",false);
 	
+	//Biome
+	public final static Biome BIOME_VILLAGE = new VillageBiome();
+	public final static Biome BOSS_VILLAGE = new BossBiome();
 }
