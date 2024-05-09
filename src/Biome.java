@@ -64,7 +64,7 @@ public abstract class Biome {
 			return false;
 
 		}
-		if(this.getTile(x,y).getPnj() != null || this.getTile(x, y).getPokemon() != null) {
+		if(this.getTile(x,y).getPnj() != null || this.getTile(x, y).getPokemon() != null || this.getTile(x, y).getItem() != null) {
 			return false;
 		}
 		

@@ -52,6 +52,9 @@ public class Duel {
 	public Pokemon getPokemon() {
 		return this.pokemon;
 	}
+	public void setPokemon(Pokemon p) {
+		this.pokemon = p;
+	}
 	//Listener
 	public boolean getIsClose() {
         return this.isClose;

@@ -28,11 +28,9 @@ public class Game {
 		super();
 		
 		this.player = new Player();
-		this.biome = Constantes.BIOME_VILLAGE;
 		this.primaryStage = primaryStage;
 		
-		this.player.setPosX(4);
-		this.player.setPosY(8);
+		this.goToSpawnPoint();
 		
         this.mapScene = new Scene(this.loadBiome(), Constantes.STAGE_HEIGHT , Constantes.STAGE_WIDTH);
         this.mapScene.setOnKeyPressed(e -> {
@@ -76,9 +74,20 @@ public class Game {
 	       	 }
         });
         
-         
+        //Controle Scene
+        Label control = new Label();
+        control.setAlignment(Pos.CENTER);
+        control.setText(" ZQSD pour se deplacer.\n F pour interagir.\n E pour l'inventaire.\n Appuyer sur F pour commenceer à jouer");
+        
+        Scene controlScene = new Scene(control, Constantes.STAGE_HEIGHT , Constantes.STAGE_WIDTH);
+        controlScene.setOnKeyPressed(e -> {
+	       	 if (e.getCode().equals(Constantes.KEY_INTERACTION)) {
+	       		this.primaryStage.setScene(this.mapScene);
+	       	 } 
+        });
+        
         this.primaryStage.setTitle("GAME");
-        this.primaryStage.setScene(this.mapScene);
+        this.primaryStage.setScene(controlScene);
         this.primaryStage.show();
 	}
 		
@@ -97,6 +106,11 @@ public class Game {
 	}
 
 	//Methode
+	public void goToSpawnPoint() {
+		this.biome = Constantes.BIOME_HOUSE;
+		this.player.setPosX(2);
+		this.player.setPosY(7);
+	}
 	public void playerMove() {
 		if(this.biome.getTile(this.player.getPosX(), this.player.getPosY()).isTpTile()) {
 			
@@ -108,8 +122,11 @@ public class Game {
 				 this.biome = Constantes.BIOME_VILLAGE;
 				 break;
 			 case 1:
-				 this.biome = Constantes.BOSS_VILLAGE;
+				 this.biome = Constantes.BIOME_BOSS;
 				 break;
+			 case 2:
+				 this.biome = Constantes.BIOME_HOUSE;
+			 	 break;
 			default:
 				break;
 			}
@@ -202,8 +219,6 @@ public class Game {
 				//int nLine = this.biome.getTile(x, y).getPnj().getDialog().length;
 				//int i = 0;
 				
-				;
-				
 		    	this.loadTextBox(this.biome.getTile(x, y).getPnj().getDialog()[0]);
 		    	
 		    	if(!this.biome.getTile(x, y).getPnj().getInventory().isEmpty()) {
@@ -217,101 +232,152 @@ public class Game {
 			}
 			else if(this.biome.getTile(x, y).getPokemon() != null) {
 				System.out.println("Debut du combat");		
-				Duel duel = new Duel(this.primaryStage, this.player, this.biome.getTile(x, y).getPokemon());
-				duel.setCloseChangeListener(isClose -> {
-		            if (isClose) {
-		                System.out.println("Fin du combat");
-		                
-		                this.mapScene.setRoot(this.loadBiome());
-		                this.primaryStage.setScene(this.mapScene);
-		                
-		                if(duel.isPlayerWin()) {
-							
-							if(duel.getPokemon().getReward() != null) {
-								
-								this.loadTextBox(this.player.getName() + " obtient " + duel.getPokemon().getReward().getName());
-								this.player.getInventory().add(duel.getPokemon().getReward());
-								this.loadTextBox(this.player.getName() + " recoit " + duel.getPokemon().getReward().getName());
-							}
-							
-						}
-		           
-		            }
-		        });
 				
-				this.biome.getTile(x, y).setPokemon(null);
+				final int xf = x;
+				final int yf = y;
+				
+				Duel duel = new Duel(this.primaryStage, this.player, this.biome.getTile(x, y).getPokemon());
+				duel.setCloseChangeListener(isClose -> this.endDuel(duel,xf,yf));
+				
+				if(this.biome.getTile(x, y).getPokemon().isKo()) {
+					this.mapScene.setRoot(this.loadBiome());
+					this.biome.getTile(x, y).setPokemon(null);
+				}	
+			}
+			else if(this.biome.getTile(x, y).getItem() != null) {
+				
+				Item item = this.biome.getTile(x, y).getItem();
+				
+				this.biome.getTile(x, y).setItem(null);
+				this.mapScene.setRoot(this.loadBiome());
+				
+				this.player.getInventory().add(item);
+				this.loadTextBox(this.player.getName() + " obtient " + item.getName());
+				
 			}
 		}
+	}
+	public void endDuel(Duel duel, int x, int y) {
+		if (duel.getIsClose()) {
+            System.out.println("Fin du combat");
+            
+            this.mapScene.setRoot(this.loadBiome());
+            this.primaryStage.setScene(this.mapScene);
+            
+            if(duel.isPlayerWin()) {
+				
+				if(duel.getPokemon().getReward() != null) {
+					
+					this.mapScene.setRoot(this.loadBiome());
+					this.loadTextBox(this.player.getName() + " obtient " + duel.getPokemon().getReward().getName());
+					this.player.getInventory().add(duel.getPokemon().getReward());
+					this.loadTextBox(this.player.getName() + " recoit " + duel.getPokemon().getReward().getName());
+				}
+				
+				this.biome.getTile(x, y).setPokemon(null);
+				this.mapScene.setRoot(this.loadBiome());
+				
+			}
+            else {
+            	this.goToSpawnPoint();
+            	this.player.setHp(this.player.getHpMax());
+            	this.loadTextBox("Papi vous a sauvé et guérit");
+            }
+       
+        }
 	}
 	//Load
 	public GridPane loadBiome() {
 		
 		GridPane gridPane = new GridPane();
-		
-		int c;
-		if(this.player.getPosX() <= this.getMinRowView() ) {
-			c = 0;
-		}
-		else if (this.player.getPosX() >= this.getMaxRowView()) {
-			c = this.getMaxRowView() - this.getMinRowView();
-		}
-		else {
-			c = this.player.getPosX() - this.getMinRowView();
-		}
-		
-		int r;
-		if(this.player.getPosY() <= this.getMinColView() ) {
-			r = 0;
-		}
-		else if (this.player.getPosY() >= this.getMaxColView()) {
-			r = this.getMaxColView() - this.getMinColView();
-		}
-		else {
-			r = this.player.getPosY() - this.getMinColView();
-		}
-		
-	
-        for (int row = 0; row < Constantes.NUMBER_OF_ROW; row++) {
-            for (int col = 0; col < Constantes.NUMBER_OF_COL; col++) {
-               
-                gridPane.add(this.biome.getTile(col + c, row + r).getBloc().getSprite(), col, row);
-                
-                if(this.biome.getTile(col + c, row + r).getPnj() != null) {
-                	gridPane.add(this.biome.getTile(col + c, row + r).getPnj().getSprite(), col, row);
-                }
-                
-                if(this.biome.getTile(col + c, row + r).getPokemon() != null) {
-                	gridPane.add(this.biome.getTile(col + c, row + r).getPokemon().getSprite(), col, row);
-                }
-                
-            }
-        }
-        System.out.println(this.player.toString());
-     
-        int x;
-        if(this.player.getPosX() <= this.getMinRowView()) {
-        	x = this.player.getPosX();
-        }
-        else if(this.player.getPosX() >= this.getMaxRowView()) {
-        	x = this.player.getPosX() - this.getMaxRowView() + this.getMinRowView();
-        }
-        else {
-        	x = this.getMinRowView();
-        }
-        
-        int y;
-        if(this.player.getPosY() <= this.getMinColView()) {
-        	y = this.player.getPosY();
-        }
-        else if(this.player.getPosY() >= this.getMaxColView()) {
-        	y = this.player.getPosY() - this.getMaxColView() + this.getMinColView();
-        }
-        else {
-        	y = this.getMinColView();
-        }
-        
-        gridPane.add(this.player.getSprite(), x, y);
 
+		int endGameStatut = this.checkEndGame();
+		if(endGameStatut == Constantes.NO_WIN) {
+			int c;
+			if(this.player.getPosX() <= this.getMinRowView() ) {
+				c = 0;
+			}
+			else if (this.player.getPosX() >= this.getMaxRowView()) {
+				c = this.getMaxRowView() - this.getMinRowView();
+			}
+			else {
+				c = this.player.getPosX() - this.getMinRowView();
+			}
+			
+			int r;
+			if(this.player.getPosY() <= this.getMinColView() ) {
+				r = 0;
+			}
+			else if (this.player.getPosY() >= this.getMaxColView()) {
+				r = this.getMaxColView() - this.getMinColView();
+			}
+			else {
+				r = this.player.getPosY() - this.getMinColView();
+			}
+			
+		
+	        for (int row = 0; row < Constantes.NUMBER_OF_ROW; row++) {
+	            for (int col = 0; col < Constantes.NUMBER_OF_COL; col++) {
+	               
+	                gridPane.add(this.biome.getTile(col + c, row + r).getBloc().getSprite(), col, row);
+	                
+	                if(this.biome.getTile(col + c, row + r).getPnj() != null) {
+	                	gridPane.add(this.biome.getTile(col + c, row + r).getPnj().getSprite(), col, row);
+	                }
+	                
+	                if(this.biome.getTile(col + c, row + r).getPokemon() != null) {
+	                	gridPane.add(this.biome.getTile(col + c, row + r).getPokemon().getSprite(), col, row);
+	                }
+	                
+	                if(this.biome.getTile(col + c, row + r).getItem() != null) {
+	                	
+	                	ImageView img = new ImageView(new Image("pokeball.png"));
+	                	img.setFitHeight(Constantes.CASE_HEIGHT);
+	                	img.setFitWidth(Constantes.CASE_WIDTH);
+	                	
+	                	gridPane.add(img, col, row);
+	                }
+	                
+	            }
+	        }
+	        System.out.println(this.player.toString());
+	     
+	        int x;
+	        if(this.player.getPosX() <= this.getMinRowView()) {
+	        	x = this.player.getPosX();
+	        }
+	        else if(this.player.getPosX() >= this.getMaxRowView()) {
+	        	x = this.player.getPosX() - this.getMaxRowView() + this.getMinRowView();
+	        }
+	        else {
+	        	x = this.getMinRowView();
+	        }
+	        
+	        int y;
+	        if(this.player.getPosY() <= this.getMinColView()) {
+	        	y = this.player.getPosY();
+	        }
+	        else if(this.player.getPosY() >= this.getMaxColView()) {
+	        	y = this.player.getPosY() - this.getMaxColView() + this.getMinColView();
+	        }
+	        else {
+	        	y = this.getMinColView();
+	        }
+	        
+	        gridPane.add(this.player.getSprite(), x, y);
+		}
+		else {
+			Label l = new Label();
+			
+			if(endGameStatut  == Constantes.WIN_DRACO) {
+				l.setText("Victoire: Vous avez battu dracofeu et sauvé Papi.");
+			}
+			
+			
+			gridPane.setAlignment(Pos.CENTER);
+			gridPane.add(l, 0, 0);
+		}
+		
         return gridPane;
 	}
 	public void loadTextBox(String line) {
@@ -356,14 +422,25 @@ public class Game {
             		 Item item = this.player.getInventoryElement(i*Constantes.NUMBER_OF_COL + j);
             		 ImageView img = item.getSprite();
             		 
-            	
-            		 
+                     //Tooltip tooltip = new Tooltip("Votre texte d'info-bulle ici");
+                     //Tooltip.install(img, tooltip);
+                     
             		 gridPane.add(img, j, i);
             	 }
             }
          }
-        	
+   
         return gridPane;
       
 	}	
+	//Win
+	public int checkEndGame() {
+		
+		if(Constantes.BIOME_BOSS.getTile(5, 7).getPokemon() == null) {
+			System.out.println("Vous avez gagné");
+			return Constantes.WIN_DRACO;
+		}
+		
+		return Constantes.NO_WIN;
+	}
 }

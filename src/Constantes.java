@@ -28,8 +28,13 @@ public class Constantes {
 	public final static Bloc BLOC_2 = new Bloc(2, "./tree.jpg", true);
 	public final static Bloc BLOC_3 = new Bloc(3, "./gate.jpg", true);
 	public final static Bloc BLOC_4 = new Bloc(4, "./stone.jpg", false);
-	public final static Bloc BLOC_5 = new Bloc(4, "./nether.jpg", false);
- 	
+	public final static Bloc BLOC_5 = new Bloc(5, "./nether.jpg", false);
+	public final static Bloc BLOC_6 = new Bloc(6, "./water.jpg", true);
+	public final static Bloc BLOC_7 = new Bloc(7, "./plank.jpg", false);
+	public final static Bloc BLOC_8 = new Bloc(8, "./house.jpg", false);
+	public final static Bloc BLOC_9 = new Bloc(9, "./carpet.jpg", false);
+	public final static Bloc BLOC_10 = new Bloc(10, "./door.jpg", false);
+	public final static Bloc BLOC_11 = new Bloc(11, "./graystone.jpg", false);
 	
 	//Item
 	public final static Item ITEM_BALL = new Item(0,"Pokeball", "./pokeball.png",false);
@@ -38,5 +43,11 @@ public class Constantes {
 	
 	//Biome
 	public final static Biome BIOME_VILLAGE = new VillageBiome();
-	public final static Biome BOSS_VILLAGE = new BossBiome();
+	public final static Biome BIOME_BOSS = new BossBiome();
+	public final static Biome BIOME_HOUSE = new HouseBiome();
+	
+	
+	//EndGame
+	public final static int NO_WIN = 0;
+	public final static int WIN_DRACO = 1;
 }

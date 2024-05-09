@@ -4,6 +4,7 @@ public class Tile {
 	private Bloc bloc;
 	private Pnj pnj;
 	private Pokemon pokemon;
+	private Item item;
 	
 	private boolean isTpTile;
 	private int spawnX;
@@ -72,6 +73,14 @@ public class Tile {
 	public void setIdTpBiome(int idTpBiome) {
 		this.idTpBiome = idTpBiome;
 	}
+	
+	public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
+	}
 
 	//Meth
 	public void setTpTile(int idBiome, int x, int y) {
@@ -80,5 +89,6 @@ public class Tile {
 		this.spawnY = y;
 		this.isTpTile = true;
 	}
+
 	
 }
