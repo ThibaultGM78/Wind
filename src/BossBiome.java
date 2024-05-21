@@ -18,7 +18,7 @@ public class BossBiome extends Biome{
 		
 		//Enter
 		this.getTile(5, 0).setBloc(Constantes.BLOC_5.deepCopy());
-		this.getTile(5, 0).setTpTile(0, 3, 2);
+		this.getTile(5, 0).setTpTile(0, 3, 1);
 		
 		this.getTile(1, 1).setBloc(Constantes.BLOC_6.deepCopy());
 		this.getTile(1, 2).setBloc(Constantes.BLOC_6.deepCopy());

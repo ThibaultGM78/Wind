@@ -409,7 +409,7 @@ public class Game {
         for (int i = 0; i < Constantes.NUMBER_OF_ROW; i++) {
              for (int j = 0; j < Constantes.NUMBER_OF_COL; j++) {
             	 
-            	 Rectangle border = new Rectangle(Constantes.CASE_HEIGHT, Constantes.CASE_WIDTH);
+            	 Rectangle border = new Rectangle(Constantes.CASE_WIDTH, Constantes.CASE_HEIGHT);
                  border.setFill(null);
                  border.setStroke(Color.BLACK); 
                  border.setStrokeWidth(1); 
@@ -419,13 +419,19 @@ public class Game {
                  
             	 if(i*Constantes.NUMBER_OF_COL + j < this.player.getInventory().size()) {
                     		
-            		 Item item = this.player.getInventoryElement(i*Constantes.NUMBER_OF_COL + j);
-            		 ImageView img = item.getSprite();
+            		GridPane itemCard = new GridPane();
             		 
-                     //Tooltip tooltip = new Tooltip("Votre texte d'info-bulle ici");
-                     //Tooltip.install(img, tooltip);
+            		Item item = this.player.getInventoryElement(i*Constantes.NUMBER_OF_COL + j);
+            		ImageView img = item.getSprite();
+            		img.setFitHeight(Constantes.CASE_HEIGHT*0.5);
+            		img.setFitWidth(Constantes.CASE_WIDTH*0.5);
+            		 
+            		itemCard.add(img, 0, 0);
+            		 
+            		Label name = new Label(item.getName());
+            		itemCard.add(name, 0, 1);
                      
-            		 gridPane.add(img, j, i);
+            		 gridPane.add(itemCard, j, i);
             	 }
             }
          }
