@@ -104,11 +104,11 @@ public class VillageBiome extends Biome{
 		
 		//Pnj
 		String[] dialog = {"Pikachu à volé les clé du portail."};
-		this.getTile(5, 5).setPnj(new Pnj("./vieux.png",dialog,"vieux"));
+		this.getTile(5, 5).setPnj(new Pnj("file:img/vieux.png",dialog,"vieux"));
 		this.getTile(5, 5).getPnj().getInventory().add(Constantes.ITEM_BALL.deepCopy());
 		
 		//Poke
-		this.getTile(4, 16).setPokemon(new Pokemon("./pikachu2.png","Pikachu",30,10,"./pikachu.png"));
+		this.getTile(4, 16).setPokemon(new Pokemon("file:img/pikachu2.png","Pikachu",30,10,"file:img/pikachu.png"));
 		this.getTile(4,16).getPokemon().setReward(Constantes.ITEM_KEY.deepCopy());
 		
 		//house

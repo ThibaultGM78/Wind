@@ -29,7 +29,7 @@ public class HouseBiome extends Biome {
 		
 		//PNJ
 		String[] dialog = {"S'il te plait, aide mon ami bloqué dans la grotte"};
-		this.getTile(1, 2).setPnj(new Pnj("./vieux.png",dialog,"vieux"));
+		this.getTile(1, 2).setPnj(new Pnj("file:img/vieux.png",dialog,"vieux"));
 	
 		//Loot
 		this.getTile(8, 2).setItem(Constantes.ITEM_POTION.deepCopy());

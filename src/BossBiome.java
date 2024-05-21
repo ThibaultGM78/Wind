@@ -33,10 +33,10 @@ public class BossBiome extends Biome{
 	
 		//Papi
 		String[] dialog = {"A l'aide ... Bat le dracofeu"};
-		this.getTile(7, 3).setPnj(new Pnj("./vieux.png",dialog,"vieux"));
+		this.getTile(7, 3).setPnj(new Pnj("file:img/vieux.png",dialog,"vieux"));
 		
 		//Boss
-		this.getTile(5,7).setPokemon(new Pokemon("./dracofeu2.png","Dracofeu",40,15,"./dracofeu.png"));
+		this.getTile(5,7).setPokemon(new Pokemon("file:img/dracofeu2.png","Dracofeu",40,15,"file:img/dracofeu.png"));
 		this.getTile(5,7).getPokemon().getInventory().add(Constantes.ITEM_POTION.deepCopy());
 		
 	}

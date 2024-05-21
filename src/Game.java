@@ -331,7 +331,7 @@ public class Game {
 	                
 	                if(this.biome.getTile(col + c, row + r).getItem() != null) {
 	                	
-	                	ImageView img = new ImageView(new Image("pokeball.png"));
+	                	ImageView img = new ImageView(new Image("file:img/pokeball.png"));
 	                	img.setFitHeight(Constantes.CASE_HEIGHT);
 	                	img.setFitWidth(Constantes.CASE_WIDTH);
 	                	
@@ -385,7 +385,7 @@ public class Game {
 		double rectangleWidth = Constantes.STAGE_WIDTH;
         double rectangleHeight = Constantes.STAGE_HEIGHT/5;
         
-        ImageView textBox = new ImageView(new Image ("./text.jpg"));
+        ImageView textBox = new ImageView(new Image ("file:img/text.jpg"));
         textBox.setFitHeight(rectangleHeight);
         textBox.setFitWidth(rectangleWidth);
         textBox.setY(rectangleHeight * 4);

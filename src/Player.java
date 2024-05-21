@@ -8,7 +8,7 @@ public class Player extends FightingEntity{
 	
 	//Cons
 	public Player() {
-		super("./player_south.png","Sacha",50,10,"./duel_player.png");
+		super("file:img/player_south.png","Sacha",50,10,"file:img/duel_player.png");
 		
 		this.getInventory().add(Constantes.ITEM_POTION.deepCopy());
 		this.getInventory().add(Constantes.ITEM_POTION.deepCopy());
@@ -37,16 +37,16 @@ public class Player extends FightingEntity{
 		this.direction = i;
 		switch(i) {
 			case Constantes.DIRECTION_NORTH:
-				this.setSprite("player_north.png");
+				this.setSprite("file:img/player_north.png");
 				break;
 			case Constantes.DIRECTION_EAST:
-				this.setSprite("player_east.png");
+				this.setSprite("file:img/player_east.png");
 				break;
 			case Constantes.DIRECTION_SOUTH:
-				this.setSprite("player_south.png");
+				this.setSprite("file:img/player_south.png");
 				break;
 			case Constantes.DIRECTION_WEST:
-				this.setSprite("player_west.png");
+				this.setSprite("file:img/player_west.png");
 				break;
 			default:
 				break;
