@@ -138,7 +138,9 @@ public class Duel {
     		if(!this.itemsBox.getValue().equals("vide")) {
     			
     			this.player.useObject(this.itemsBox.getValue().toString());
-            	this.nextTurn();
+            	//this.nextTurn();
+            	this.scene.setRoot(this.loadDuel());
+			    this.primaryStage.setScene(this.scene);
     		}	
     	}		
     }
