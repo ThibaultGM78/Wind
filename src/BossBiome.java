@@ -1,9 +1,16 @@
-
+/**
+ * @brief Represents a Boss Biome in the game.
+ */
 public class BossBiome extends Biome{
-
+	/**
+	 * @brief Constructs a BossBiome with a predefined size and id.
+	 */
 	public BossBiome() {
 		super(11, 11,1);
 	}
+	/**
+	 * @brief Initializes the BossBiome with specific tiles, including obstacles, NPCs, and a boss.
+	 */
 	@Override
 	public void initBiome() {
 		

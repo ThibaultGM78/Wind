@@ -1,11 +1,17 @@
 
-
+/**
+ * @brief Represents a village biome in the game world.
+ */
 public class VillageBiome extends Biome{
-	
+	/**
+     * @brief Constructs a new VillageBiome object with the specified dimensions.
+     */
 	public VillageBiome() {
 		super(11 * 2, 11 * 2,0);
 	}
-	
+	/**
+     * @brief Initializes the village biome by setting up its tiles and features.
+     */
 	public void initBiome() {
 		int i = 0;
 		int j = 0;

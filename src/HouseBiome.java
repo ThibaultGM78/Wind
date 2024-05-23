@@ -1,11 +1,21 @@
-
+/**
+ * @brief Represents a house biome.
+ * 
+ * Inherits from Biome class.
+ */
 public class HouseBiome extends Biome {
-
+	/**
+     * @brief Constructs a HouseBiome object with the specified dimensions.
+     */
 	public HouseBiome() {
 		super(Constantes.NUMBER_OF_ROW, Constantes.NUMBER_OF_COL, 2);
 		// TODO Auto-generated constructor stub
 	}
-
+	/**
+     * @brief Initializes the house biome.
+     * 
+     * Sets up the tiles, blocks, NPCs, and items for the house biome.
+     */
 	@Override
 	public void initBiome() {
 		

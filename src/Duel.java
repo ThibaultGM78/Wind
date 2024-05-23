@@ -13,6 +13,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+/**
+ * @brief Represents a duel between the player and a Pokémon.
+ */
 public class Duel {
 	//VAR
 	private Player player;
@@ -30,6 +33,13 @@ public class Duel {
 
 	
 	//Cons
+	/**
+	 * @brief Constructs a Duel with the specified player and Pokémon.
+	 * 
+	 * @param primaryStage The primary stage of the application.
+	 * @param player The player participating in the duel.
+	 * @param pokemon The Pokémon opposing the player.
+	 */
 	public Duel(Stage primaryStage, Player player, Pokemon pokemon) {
 		this.primaryStage = primaryStage;
 		this.player = player;
@@ -46,32 +56,63 @@ public class Duel {
 	}
 	
 	//GetSet
+	/**
+	 * @brief Checks if the player has won the duel.
+	 * 
+	 * @return True if the player has won, false otherwise.
+	 */
 	public boolean isPlayerWin() {
 		return this.isPlayerWin;
 	}
+	/**
+	 * @brief Gets the Pokémon opposing the player.
+	 * 
+	 * @return The opposing Pokémon.
+	 */
 	public Pokemon getPokemon() {
 		return this.pokemon;
 	}
+	/**
+	 * @brief Sets the Pokémon opposing the player.
+	 * 
+	 * @param p The new opposing Pokémon.
+	 */
 	public void setPokemon(Pokemon p) {
 		this.pokemon = p;
 	}
 	//Listener
+	/**
+	 * @brief Checks if the duel is close.
+	 * 
+	 * @return True if the duel is close, false otherwise.
+	 */
 	public boolean getIsClose() {
         return this.isClose;
     }
-
+	/**
+	 * @brief Sets the state of the duel to close or open.
+	 * 
+	 * @param b True to close the duel, false to keep it open.
+	 */
     public void setIsClose(boolean b) {
         this.isClose = b;
         if (closeChangeListener != null) {
             closeChangeListener.accept(b);
         }
     }
-
+    /**
+	 * @brief Sets the listener for changes to the duel's close state.
+	 * 
+	 * @param listener The listener to be notified of close state changes.
+	 */
     public void setCloseChangeListener(Consumer<Boolean> listener) {
         this.closeChangeListener = listener;
     }
 	
 	//Met
+    /**
+	 * @brief Proceeds to the next turn in the duel.
+	 */
     public void nextTurn() {
     	
     	if(pokemon.isKo()) {
@@ -96,7 +137,9 @@ public class Duel {
 			
 		}
     }
-    
+	/**
+	 * @brief Executes the Pokémon's turn in the duel.
+	 */
     private void pokemonTurn() {
     	
     	System.out.println("Tour adverse:");
@@ -111,7 +154,9 @@ public class Duel {
     	}
     	
     }
-    
+    /**
+	 * @brief Loads the items available in the player's inventory into the items combo box.
+	 */
     private void loadItemBox() {
     	ComboBox<String> comboBox = new ComboBox<>();
     	
@@ -130,7 +175,9 @@ public class Duel {
     	
     	 this.itemsBox = comboBox;	    
     }
-    
+    /**
+	 * @brief Handles the use button click event.
+	 */
     public void handleUseBtn() {
     	
     	if(this.itemsBox.getValue() != null) {
@@ -144,7 +191,11 @@ public class Duel {
     		}	
     	}		
     }
-    
+    /**
+	 * @brief Loads the duel interface.
+	 * 
+	 * @return The GridPane representing the duel interface.
+	 */
 	public GridPane loadDuel() {
 	
 		GridPane gridPane = new GridPane();

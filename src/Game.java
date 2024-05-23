@@ -13,7 +13,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+/**
+ * @brief Represents the game logic and UI.
+ */
 public class Game {
 	//Variable
 	private Scene mapScene;
@@ -24,6 +26,11 @@ public class Game {
 	private Stage primaryStage;
 	
 	//Cons
+	/**
+     * @brief Constructs the game with the specified primary stage.
+     * 
+     * @param primaryStage The primary stage of the game.
+     */
 	public Game(Stage primaryStage) {
 		super();
 		
@@ -92,25 +99,51 @@ public class Game {
 	}
 		
 	//GetSet
+    /**
+     * @brief Gets the minimum row view.
+     * 
+     * @return The minimum row view.
+     */
 	public int getMinRowView() {
 		return (int) Math.ceil(Constantes.NUMBER_OF_ROW / 2);
 	}
+	/**
+     * @brief Gets the maximum row view.
+     * 
+     * @return The maximum row view.
+     */
 	public int getMaxRowView() {
 		return this.biome.getWidth() - this.getMinRowView() - 1;
 	}
+	/**
+     * @brief Gets the minimum column view.
+     * 
+     * @return The minimum column view.
+     */
 	public int getMinColView() {
 		return (int) Math.ceil(Constantes.NUMBER_OF_COL / 2);
 	}
+	/**
+     * @brief Gets the maximum column view.
+     * 
+     * @return The maximum column view.
+     */
 	public int getMaxColView() {
 		return this.biome.getHeight() - this.getMinRowView() - 1;
 	}
 
 	//Methode
+	/**
+     * @brief Moves the player to the spawn point.
+     */
 	public void goToSpawnPoint() {
 		this.biome = Constantes.BIOME_HOUSE;
 		this.player.setPosX(2);
 		this.player.setPosY(7);
 	}
+	/**
+     * @brief Handles player movement.
+     */
 	public void playerMove() {
 		if(this.biome.getTile(this.player.getPosX(), this.player.getPosY()).isTpTile()) {
 			
@@ -136,8 +169,10 @@ public class Game {
 			this.player.setDirection(Constantes.DIRECTION_SOUTH);
 		}
 		
-		
 	}
+	/**
+     * @brief Moves the player up.
+     */
 	public void playerMoveTop() {
 		System.out.println("Joueur monte");
 		
@@ -152,6 +187,9 @@ public class Game {
 
 		this.mapScene.setRoot(this.loadBiome());
 	}
+	/**
+     * @brief Moves the player down.
+     */
 	public void playerMoveBottom() {
 		System.out.println("Joueur descend"); 
 		
@@ -165,6 +203,9 @@ public class Game {
 		}	
 		this.mapScene.setRoot(this.loadBiome());
 	}
+	/**
+     * @brief Moves the player left.
+     */
 	public void playerMoveLeft() {
 		System.out.println("Joueur Gauche"); 
 		
@@ -178,6 +219,9 @@ public class Game {
 		}
 		this.mapScene.setRoot(this.loadBiome());
 	}
+	 /**
+     * @brief Moves the player right.
+     */
 	public void playerMoveRight() {
 		System.out.println("Joueur Droit"); 
 		
@@ -191,7 +235,9 @@ public class Game {
 		}
 		this.mapScene.setRoot(this.loadBiome());
 	}
-	
+	/**
+     * @brief Handles player interaction.
+     */
 	public void playerInteraction() {
 		int x = this.player.getPosX();
 		int y = this.player.getPosY();
@@ -257,6 +303,13 @@ public class Game {
 			}
 		}
 	}
+	/**
+     * @brief Ends the duel.
+     * 
+     * @param duel The duel instance.
+     * @param x The x-coordinate of the player.
+     * @param y The y-coordinate of the player.
+     */
 	public void endDuel(Duel duel, int x, int y) {
 		if (duel.getIsClose()) {
             System.out.println("Fin du combat");
@@ -287,6 +340,11 @@ public class Game {
         }
 	}
 	//Load
+	/**
+     * @brief Loads the biome.
+     * 
+     * @return The grid pane representing the biome.
+     */
 	public GridPane loadBiome() {
 		
 		GridPane gridPane = new GridPane();
@@ -380,6 +438,11 @@ public class Game {
 		
         return gridPane;
 	}
+	/**
+     * @brief Loads the text box with the specified line.
+     * 
+     * @param line The line of text to display.
+     */
 	public void loadTextBox(String line) {
 		
 		double rectangleWidth = Constantes.STAGE_WIDTH;
@@ -402,6 +465,11 @@ public class Game {
         root.getChildren().addAll(this.loadBiome(),textBox,text); // Ajouter le GridPane et le rectangle
         this.mapScene.setRoot(root);
 	}
+	/**
+     * @brief Loads the inventory.
+     * 
+     * @return The grid pane representing the inventory.
+     */
 	public GridPane loadInventory() {
 		
         GridPane gridPane = new GridPane();
@@ -440,6 +508,11 @@ public class Game {
       
 	}	
 	//Win
+	/**
+     * @brief Checks if the game has ended.
+     * 
+     * @return The end game status.
+     */
 	public int checkEndGame() {
 		
 		if(Constantes.BIOME_BOSS.getTile(5, 7).getPokemon() == null) {
