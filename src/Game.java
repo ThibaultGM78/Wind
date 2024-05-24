@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 /**
@@ -267,14 +268,18 @@ public class Game {
 				
 		    	this.loadTextBox(this.biome.getTile(x, y).getPnj().getDialog()[0]);
 		    	
-		    	if(!this.biome.getTile(x, y).getPnj().getInventory().isEmpty()) {
+		    	if(this.biome.getTile(x, y).getPnj() instanceof Merchant) {
+	    			System.out.println("oui");
+	    			this.loadMarchanding(x,y);
+	    			
+	    		}else if(!this.biome.getTile(x, y).getPnj().getInventory().isEmpty()) {
+		    		
 		    		System.out.println("donne " + this.biome.getTile(x, y).getPnj().getInventoryElement(0).getName());
 		    		this.player.getInventory().add(this.biome.getTile(x, y).getPnj().getInventoryElement(0).deepCopy());
 		    		this.biome.getTile(x, y).getPnj().getInventory().remove(0);
+		    		
 		    	}
 		    	
-		       
-		       
 			}
 			else if(this.biome.getTile(x, y).getPokemon() != null) {
 				System.out.println("Debut du combat");		
@@ -423,6 +428,27 @@ public class Game {
 	        }
 	        
 	        gridPane.add(this.player.getSprite(), x, y);
+	        
+	        Label life = new Label(this.player.getHp() + " / " + this.player.getHpMax());
+	        life.setFont(Font.font("System", FontWeight.BOLD, 8));
+	        life.setTextFill(Color.WHITE);
+	        gridPane.add(life, Constantes.NUMBER_OF_COL - 1, 0); 
+	        
+	        Label lifeTitle = new Label("Vie :");
+	        lifeTitle.setFont(Font.font("System", FontWeight.BOLD, 8));
+	        lifeTitle.setTextFill(Color.WHITE);
+	        gridPane.add(lifeTitle, Constantes.NUMBER_OF_COL - 2, 0); 
+	        
+	        Label money = new Label(this.player.getCoins() + "");
+	        money.setFont(Font.font("System", FontWeight.BOLD, 8));
+	        money.setTextFill(Color.WHITE);
+	        gridPane.add(money, Constantes.NUMBER_OF_COL - 1, 1); 
+	        
+	        Label moneyTitle = new Label("Argent :");
+	        moneyTitle.setFont(Font.font("System", FontWeight.BOLD, 8));
+	        moneyTitle.setTextFill(Color.WHITE);
+	        gridPane.add(moneyTitle, Constantes.NUMBER_OF_COL - 2, 1);
+	       
 		}
 		else {
 			Label l = new Label();
@@ -493,20 +519,86 @@ public class Game {
             		ImageView img = item.getSprite();
             		img.setFitHeight(Constantes.CASE_HEIGHT*0.5);
             		img.setFitWidth(Constantes.CASE_WIDTH*0.5);
+            		
+            		img.setOnMouseClicked(e -> {
+            				
+            				if(item.isUseableOutDuel()) {
+            					System.out.println("Use " + item.getName());
+            					this.player.useObject(item.getName());
+            					
+            					this.inventoryScene.setRoot(this.loadInventory());
+            	       	        this.primaryStage.setScene(this.inventoryScene);
+            				}
+            				
+            		});
             		 
             		itemCard.add(img, 0, 0);
             		 
             		Label name = new Label(item.getName());
             		itemCard.add(name, 0, 1);
                      
-            		 gridPane.add(itemCard, j, i);
+            		gridPane.add(itemCard, j, i);
             	 }
             }
          }
    
         return gridPane;
       
-	}	
+	}
+	public void loadMarchanding(int x,int y) {
+		double rectangleWidth = Constantes.STAGE_WIDTH;
+        double rectangleHeight = Constantes.STAGE_HEIGHT/5;
+        Merchant m = (Merchant) this.biome.getTile(x, y).getPnj();
+        
+        ImageView textBox = new ImageView(new Image ("file:img/text.jpg"));
+        textBox.setFitHeight(rectangleHeight);
+        textBox.setFitWidth(rectangleWidth);
+        textBox.setY(rectangleHeight * 4);
+     
+        //Text
+        Text text = new Text(m.getDialog()[0]);
+        text.setFont(Font.font("Arial", 20));
+        text.setFill(Color.BLACK);
+        text.setY(Constantes.STAGE_HEIGHT*4/5);
+        
+        text.setLayoutX(30);
+        text.setLayoutY(30);
+        
+        //Items
+        ComboBox<String> comboBox = new ComboBox<>();
+    	for(int i = 0; i < m.getInventory().size(); i++) {
+    			 
+    		comboBox.getItems().add(m.getInventoryElement(i).getName() + " - " + m.getPrices()[i]);
+   	 	
+    	}
+    	comboBox.setLayoutX(40);
+        comboBox.setLayoutY(Constantes.STAGE_HEIGHT*4/5 + 40);
+        
+        //Button
+        Button buy = new Button("Acheter");
+        buy.setOnAction(e -> {
+        	
+        	if(comboBox.getItems().size() > 0) {
+        		int i = comboBox.getSelectionModel().getSelectedIndex();
+            	Item item = m.getInventoryElement(i);
+            	if(this.player.getCoins() >= m.getPrices()[i]) {
+            		this.player.updateCoins(-m.getPrices()[i]);
+            		this.player.getInventory().add(item);
+            		m.getInventory().remove(i);
+            		this.biome.getTile(x, y).setPnj(m);
+            		
+            		this.mapScene.setRoot(this.loadBiome());
+            	}
+        	}
+        	
+        });
+        buy.setLayoutX(200);
+        buy.setLayoutY(Constantes.STAGE_HEIGHT*4/5 + 40);
+        
+		Pane root = new Pane();
+        root.getChildren().addAll(this.loadBiome(),textBox,text,comboBox,buy);
+        this.mapScene.setRoot(root);
+	}
 	//Win
 	/**
      * @brief Checks if the game has ended.

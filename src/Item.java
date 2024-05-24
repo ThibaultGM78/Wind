@@ -8,7 +8,8 @@ public class Item {
 	private String spritePath;
 	private ImageView sprite;
 	private int id;
-	private boolean isUseableInDuel;
+	private boolean isUsableInDuel;
+	private boolean isUsableOutDuel;
 	
 	private boolean isLimited;
 	private int nUseRemain;
@@ -22,7 +23,7 @@ public class Item {
      * @param spritePath The path to the sprite image of the item.
      * @param isUsableInDuel Indicates whether the item is usable in duels.
      */
-	public Item(int id, String name, String spritePath, boolean isUsableInDuel) {
+	public Item(int id, String name, String spritePath, boolean isUsableInDuel, boolean isUsableOutDuel) {
 		super();
 		this.id = id;
 		this.sprite = new ImageView(new Image (spritePath));
@@ -30,7 +31,8 @@ public class Item {
 		this.name = name;
 		this.sprite.setFitHeight(Constantes.CASE_HEIGHT);
 		this.sprite.setFitWidth(Constantes.CASE_WIDTH);
-		this.isUseableInDuel = isUsableInDuel;
+		this.isUsableInDuel = isUsableInDuel;
+		this.isUsableOutDuel = isUsableOutDuel;
 		
 		this.isLimited = false;
 		this.nUseRemain = 1;
@@ -44,7 +46,7 @@ public class Item {
      * @param isUsableInDuel Indicates whether the item is usable in duels.
      * @param nUse The number of uses of the item.
      */
-	public Item(int id, String name, String spritePath, boolean isUsableInDuel, int nUse) {
+	public Item(int id, String name, String spritePath, boolean isUsableInDuel, boolean isUsableOutDuel, int nUse) {
 		super();
 		this.id = id;
 		this.sprite = new ImageView(new Image (spritePath));
@@ -52,7 +54,8 @@ public class Item {
 		this.name = name;
 		this.sprite.setFitHeight(Constantes.CASE_HEIGHT);
 		this.sprite.setFitWidth(Constantes.CASE_WIDTH);
-		this.isUseableInDuel = isUsableInDuel;
+		this.isUsableInDuel = isUsableInDuel;
+		this.isUsableOutDuel = isUsableOutDuel;
 		
 		this.isLimited = true;
 		this.nUseRemain = nUse;
@@ -67,7 +70,7 @@ public class Item {
      * @param isLimited Indicates whether the item has limited uses.
      * @param nUse The number of uses of the item.
      */
-	public Item(int id, String name, String spritePath, boolean isUsableInDuel, boolean isLimited, int nUse) {
+	public Item(int id, String name, String spritePath, boolean isUsableInDuel, boolean isUsableOutDuel, boolean isLimited, int nUse) {
 		super();
 		this.id = id;
 		this.sprite = new ImageView(new Image (spritePath));
@@ -75,7 +78,8 @@ public class Item {
 		this.name = name;
 		this.sprite.setFitHeight(Constantes.CASE_HEIGHT);
 		this.sprite.setFitWidth(Constantes.CASE_WIDTH);
-		this.isUseableInDuel = isUsableInDuel;
+		this.isUsableInDuel = isUsableInDuel;
+		this.isUsableOutDuel = isUsableOutDuel;
 		
 		this.isLimited = isLimited;
 		this.nUseRemain = nUse;
@@ -152,7 +156,7 @@ public class Item {
      * @return True if the item is usable in duels, false otherwise.
      */
 	public boolean isUseableInDuel() {
-		return isUseableInDuel;
+		return isUsableInDuel;
 	}
 	/**
      * @brief Sets whether the item is usable in duels.
@@ -160,7 +164,23 @@ public class Item {
      * @param isUseableInDuel Indicates whether the item is usable in duels.
      */
 	public void setUseableInDuel(boolean isUseableInDuel) {
-		this.isUseableInDuel = isUseableInDuel;
+		this.isUsableInDuel = isUseableInDuel;
+	}
+	/**
+     * @brief Checks if the item is usable out duels.
+     * 
+     * @return True if the item is usable out duels, false otherwise.
+     */
+	public boolean isUseableOutDuel() {
+		return isUsableOutDuel;
+	}
+	/**
+     * @brief Sets whether the item is usable out duels.
+     * 
+     * @param isUseableInDuel Indicates whether the item is usable out duels.
+     */
+	public void setUseableOutDuel(boolean isUseableOutDuel) {
+		this.isUsableOutDuel = isUseableOutDuel;
 	}
 	/**
      * @brief Checks if the item has limited uses.
@@ -202,7 +222,7 @@ public class Item {
      * @return A deep copy of the item.
      */
 	public Item deepCopy() {
-        return new Item(this.id,new String(this.name),new String(this.spritePath),this.isUseableInDuel, this.isLimited, this.nUseRemain);
+        return new Item(this.id,new String(this.name),new String(this.spritePath),this.isUsableInDuel, this.isLimited, this.nUseRemain);
     }
 
 	

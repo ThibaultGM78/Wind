@@ -7,6 +7,7 @@ public class Player extends FightingEntity{
 	private int direction;
 	private int posX;
 	private int posY;
+	private int coins;
 	
 	//Cons
 	 /**
@@ -17,6 +18,8 @@ public class Player extends FightingEntity{
 		
 		this.getInventory().add(Constantes.ITEM_POTION.deepCopy());
 		this.getInventory().add(Constantes.ITEM_POTION.deepCopy());
+		
+		this.coins = 50;
 	}
 
 	//GetSet
@@ -98,6 +101,19 @@ public class Player extends FightingEntity{
 	public String toString() {
 		return "X: " + this.getPosX() + ",Y :" + this.getPosY();
 	}
+
+	public int getCoins() {
+		return coins;
+	}
+
+	public void setCoins(int coins) {
+		this.coins = coins;
+	}
+	
+	public void updateCoins(int i) {
+		this.coins += i;
+	}
+
 
 	
 }

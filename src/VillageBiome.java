@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @brief Represents a village biome in the game world.
@@ -120,6 +122,15 @@ public class VillageBiome extends Biome{
 		//house
 		this.getTile(11, 5).setBloc(Constantes.BLOC_8.deepCopy());
 		this.getTile(11, 5).setTpTile(2, 5, 1);
+		
+		//Merchant
+		String[] dialog1 = {"Je vend des trucs"};
+		List<Item> items = new ArrayList<Item>();
+		items.add(Constantes.ITEM_POTION.deepCopy());
+		items.add(Constantes.ITEM_POTION.deepCopy());
+		items.add(Constantes.ITEM_BALL.deepCopy());
+		int[] prices = {10,10,5};
+		this.getTile(9, 11).setPnj(new Merchant("file:img/vieux.png",dialog1,"vieux",items,prices));
 		
 
 	}

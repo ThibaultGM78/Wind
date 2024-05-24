@@ -37,9 +37,9 @@ public class Constantes {
 	public final static Bloc BLOC_11 = new Bloc(11, "file:img/graystone.jpg", false);
 	
 	//Item
-	public final static Item ITEM_BALL = new Item(0,"Pokeball", "file:img/pokeball.png",false);
-	public final static Item ITEM_POTION = new Item(1,"Potion", "file:img/potion.png",true,1);
-	public final static Item ITEM_KEY = new Item(2,"Clé", "file:img/key.png",false);
+	public final static Item ITEM_BALL = new Item(0,"Pokeball", "file:img/pokeball.png",false,false);
+	public final static Item ITEM_POTION = new Item(1,"Potion", "file:img/potion.png",true,true,1);
+	public final static Item ITEM_KEY = new Item(2,"Clé", "file:img/key.png",false,false);
 
 	//Biome
 	public final static Biome BIOME_VILLAGE = new VillageBiome();
